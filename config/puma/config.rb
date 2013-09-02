@@ -16,7 +16,8 @@ pidfile '/var/run/puppet/puppetmaster_puma.pid'
 state_path '/var/run/puppet/puppetmaster_puma.state'
 
 # Redirect STDOUT and STDERR to files specified.
-stdout_redirect '/var/log/puppet/puppetmaster_puma.log', '/var/log/puppetmaster_puma_err.log', true
+# I was having trouble getting this to work correctly:
+# stdout_redirect '/var/log/puppet/puppetmaster_puma.log', '/var/log/puppetmaster_puma_err.log', true
 
 # Bind the server to “url”. “tcp://”, “unix://” and “ssl://” are the only
 bind 'unix:///var/run/puppet/puppetmaster_puma.sock'
