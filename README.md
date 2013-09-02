@@ -1,4 +1,4 @@
-## puppetmaster-puma
+# puppetmaster-puma
 
 [puppet master](http://puppetlabs.com/puppet/what-is-puppet) is the server for the puppet master/agent deployment.
 [puma](http://puma.io) is "a modern, concurrent web server for ruby."
@@ -7,7 +7,7 @@ The common way to improve the request handling performance of the puppet master 
 
 Let's find out! I'm working on a debian wheezy VM with the hostname 'wheezy.localdomain'. Obviously replace any occurrences of 'wheezy.localdomain' with your hostname.
 
-# setup
+## setup
 
 Install the puppetlabs release package for your dist from the [PL Repo](http://apt.puppetlabs.com).
 ```bash
@@ -52,6 +52,12 @@ You can download and install these configs, but you'll probably want to tweak th
     $ cp puppetmaster.conf /etc/ngninx/conf.d
     $ service ngninx restart
 ```
+We also need to modify puppet.conf for nginx. Set the following lines in the [master] stanza of /etc/puppet/puppet.conf.
+```bash
+  ssl_client_header = HTTP_X_CLIENT_DN
+  ssl_client_verify_header = HTTP_X_CLIENT_VERIFY
+```
+
 Now start puma!
 ```bash
     $ puma -C /etc/config.rb
@@ -59,4 +65,4 @@ Now start puma!
 The puppet master is now running behind puma and nginx!
 
 Exercises left to the reader:
-You definitely don't want to run this setup in production as-is. First, I have not evaluated the security of this configuration in any way other than being certain its not very secure:)  Second, puma does not have any sort of process supervisor built in, so you're going to want to set up process management for puma, e.g. using something like [god](http://rubygems.org/gems/god) and service management, perhaps with [jungle](https://github.com/puma/puma/tree/master/tools/jungle).
+You definitely don't want to run this setup in production as-is. First, I have not evaluated the security of this configuration in any way other than being certain it is not very secure:)  Second, puma does not have any sort of process supervisor built in, so you're going to want to set up process management for puma, e.g. using something like [god](http://rubygems.org/gems/god) and service management, perhaps with [jungle](https://github.com/puma/puma/tree/master/tools/jungle).
